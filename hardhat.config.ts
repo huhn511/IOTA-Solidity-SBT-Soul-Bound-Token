@@ -5,15 +5,7 @@ require("@nomiclabs/hardhat-waffle");
 require("hardhat-gas-reporter");
 require("solidity-coverage");
 
-// This is a sample Hardhat task. To learn how to create your own go to
-// https://hardhat.org/guides/create-task.html
-task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
-  const accounts = await hre.ethers.getSigners();
-
-  for (const account of accounts) {
-    console.log(account.address);
-  }
-});
+const privateKey = process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : []
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
@@ -30,6 +22,12 @@ module.exports = {
     ]
   },
   networks: {
+    isc: {
+      url: "https://evm.wasp.sc.iota.org",
+      chainId: 1074,
+      accounts: privateKey,
+      timeout: 120000
+    },
     rinkeby: {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       //accounts: [process.env.PRIVATE_KEY,process.env.USER1_PRIVATE_KEY,],
